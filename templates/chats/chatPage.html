@@ -1,0 +1,87 @@
+{% load static %} 
+ 
+<link rel="stylesheet" href="{% static 'style.css' %}"> 
+ 
+<!DOCTYPE html> 
+<h1>Messages</h1> 
+<div class = myDiv> 
+{% if message_list %} 
+    <ul> 
+    {% for m in message_list %} 
+        <div class="row">  
+            {% for key, value in m.items %} 
+                {%if key == "timestamp"%} 
+                    <font color="#786527">[{{ value }}]</font>   
+                {% elif key == "user" %} 
+                    <font color="#786527">{{ value }}</font> 
+                {%else%} 
+                    <font color="#14334e">: {{ value }}</font> 
+                {%endif%} 
+            {% endfor %} 
+         
+        </div>  
+    {% endfor %} 
+    </ul> 
+{% else %} 
+    <p>No messages are available.</p> 
+{% endif %} 
+ 
+</div> 
+   
+<html> 
+  <body> 
+    <br> 
+    <div 
+      class="chat__item__container" 
+      id="id_chat_item_container" 
+      style="font-size: 20px" 
+    > 
+    <br/> 
+    <!--<input type="text" id="id_message_send_input" />--> 
+    <form method = "POST"> 
+    {% csrf_token %}  
+    <input type="text" class="icon" name="new_message" autocomplete="off" maxlength="1000" required="" id="id_message_send_input"> 
+    </form> 
+    <button hidden type="submit" id="id_message_send_button">Send Message</button> 
+     
+    <br/> 
+    <br/> 
+    </div> 
+ 
+    <script> 
+      const chatSocket = new WebSocket("ws://" + window.location.host + "/"); 
+      chatSocket.onopen = function (e){ 
+        console.log("The connection was setup successfully !"); 
+      }; 
+      chatSocket.onclose = function (e){ 
+        console.log("Something unexpected happened !"); 
+      }; 
+      document.querySelector("#id_message_send_input").focus(); 
+      document.querySelector("#id_message_send_input").onkeyup = function (e) { 
+        if (e.keyCode == 13) { 
+          document.querySelector("#id_message_send_button").click(); 
+        } 
+      }; 
+      document.querySelector("#id_message_send_button").onclick = function (e) { 
+        var messageInput = document.querySelector( 
+          "#id_message_send_input" 
+        ).value; 
+        chatSocket.send(JSON.stringify({ message: messageInput, username : "{{request.user.username}}"})); 
+      }; 
+      chatSocket.onmessage = function (e) { 
+        const data = JSON.parse(e.data); 
+        /*var div = document.createElement("div"); 
+        div.innerHTML = data.username + " : " + data.message; 
+        document.querySelector("#id_message_send_input").value = ""; 
+        document.querySelector("#id_chat_item_container").appendChild(div);*/ 
+        location.reload() 
+      }; 
+    </script> 
+ 
+  </body> 
+</html> 
+<p> 
+<a class = "button", href="{% url 'accounts:chat index' %}"> 
+    <div>return</div> 
+</a> 
+</p> 

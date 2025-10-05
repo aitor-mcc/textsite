@@ -1,0 +1,22 @@
+{% load static %} 
+<style> 
+h1 {text-align: center;} 
+h2 {text-align: center;} 
+p {text-align: center;} 
+div {text-align: center;} 
+</style> 
+ 
+ 
+{%if error %} 
+    <script>alert('email already in use');</script>  
+{%endif%} 
+<head> 
+<h1>{{user.email}}</h1> 
+<h1>Change Settings</h1> 
+<p>{{text}}</p> 
+<form method = "POST"> 
+{% csrf_token %}  
+{{form.as_ul}} 
+<input type="submit" value="Save"> 
+</form> 
+</head> 

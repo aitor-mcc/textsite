@@ -1,0 +1,25 @@
+{% load static %} 
+ 
+<head> 
+<link rel="stylesheet" href="{% static 'style.css' %}"> 
+<style> 
+h1 {text-align: center;} 
+p {text-align: center;} 
+div {text-align: center;} 
+</style> 
+</head> 
+ 
+<h1>New Chat?!</h1> 
+<br> 
+<img src="{% static 'shocked.gif' %}"> 
+ 
+<form method = "POST"> 
+{% csrf_token %}  
+<input type="text" placeholder="chat name" name="name" maxlength="100" 
+required="" id="id_name"> 
+<p> 
+<input type = "submit" value = "create and add users">  
+<button> 
+<a href="{% url 'accounts:chat index' %}">return</a> 
+</button> 
+</p>

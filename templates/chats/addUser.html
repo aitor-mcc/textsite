@@ -1,0 +1,29 @@
+{% load static %} 
+<head> 
+<link rel="stylesheet" href="{% static 'style.css' %}"> 
+<style> 
+h1 {text-align: center;} 
+p {text-align: center;} 
+div {text-align: center;} 
+</style> 
+</head> 
+ 
+<body> 
+<h1>Find User</h1> 
+ 
+{% if i%} 
+  <ul> 
+  <p> 
+  {{ i.username }} 
+  </p> 
+  <form method="POST"> 
+  {% csrf_token %} 
+  <input type="submit" value="add user"> 
+  </form> 
+  </ul> 
+{%endif%} 
+<form action="{% url 'accounts:add user' pk %}" method="get"> 
+  <input name="q" autocomplete = "off" type="text" placeholder="Search..."> 
+</form> 
+<a class = "button2", href="{% url 'accounts:chat index' %}">done</a> 
+</body>

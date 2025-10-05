@@ -1,0 +1,29 @@
+{% load static %} 
+<link rel="stylesheet" href="{% static 'style.css' %}"> 
+<style> 
+h1 {text-align: center;} 
+p {text-align: center;} 
+div {text-align: center;} 
+a {text-align:center;} 
+</style> 
+ 
+<h1>CHATS!!</h1> 
+{% if chat_list %} 
+    <ul> 
+    {% for chat in chat_list %} 
+    <p> 
+    <a href="{% url 'accounts:messages' chat.chatID %}">{{chat.name}}</a> 
+    <a href="{% url 'accounts:leave' chat.chatID %}">Delete</a> 
+    </p> 
+    {% endfor %} 
+     
+    </ul> 
+{% else %} 
+    <p>No chats are available.</p> 
+{% endif %} 
+<br> 
+<br> 
+<p> 
+<a class = "button", href="{% url 'home' %}">home</a> 
+<a class = "button", href="{% url 'accounts:new chat' %}">new chat</a> 
+</p> 

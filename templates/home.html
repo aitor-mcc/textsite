@@ -1,0 +1,38 @@
+{% extends "base.html" %} 
+{% block content %} 
+{% load static %} 
+ 
+<head> 
+<link rel="stylesheet" href="{% static 'style.css' %}"> 
+<style> 
+h1 {text-align: center;} 
+h2 {text-align: center;} 
+p {text-align: center;} 
+div {text-align: center;} 
+</style> 
+</head> 
+ 
+<body> 
+<h1>Haiiii!</h1> 
+{% if user.is_authenticated %} 
+  <h2>Hi {{ user.username }}!</h2> 
+  <a class = "button", href="{% url 'accounts:chat index' %}"> 
+    <div>chats</div> 
+  </a> 
+  <p></p> 
+  <a class = "button", href="{% url 'logout' %}"> 
+    <div>logout</div> 
+  </a> 
+  <a class = "button", href="{% url 'accounts:settings' %}"> 
+    <div>settings</div> 
+  </a> 
+ 
+ 
+   
+{% else %} 
+  <p>You are not logged in</p> 
+  <a class = "button2", href="{% url 'login' %}">Log In</a> 
+  <a class = "button2", href="{% url 'users:signup' %}">Sign Up</a> 
+{% endif %} 
+{% endblock %} 
+</body>
